@@ -1,8 +1,9 @@
 import Input from "@/components/Input";
+import axios from "axios";
 import React, { useCallback, useState } from "react";
 
 const AuthPage = () => {
-  const [username, setUsername] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -13,6 +14,18 @@ const AuthPage = () => {
       currentVariant === "login" ? "register" : "login"
     );
   }, []);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register", {
+        email,
+        password,
+        name,
+      });
+    } catch (error) {
+      console.log("Register Error:", error);
+    }
+  }, [email, password, name]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-fixed bg-center bg-cover">
@@ -28,12 +41,12 @@ const AuthPage = () => {
             <div className="flex flex-col gap-4">
               {variant === "register" && (
                 <Input
-                  id="username"
+                  id="name"
                   type="text"
-                  label="Username"
-                  value={username}
+                  label="name"
+                  value={name}
                   onChange={(e: any) => {
-                    setUsername(e.target.value);
+                    setName(e.target.value);
                   }}
                 />
               )}
@@ -56,7 +69,10 @@ const AuthPage = () => {
                 }}
               />
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button
+              onClick={register}
+              className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
+            >
               {variant === "login" ? "Login" : "Sign up"}
             </button>
             <p className="text-neutral-500 mt-12">
