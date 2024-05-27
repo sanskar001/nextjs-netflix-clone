@@ -11,7 +11,7 @@ export default NextAuth({
       credentials: {
         email: {
           label: "Email",
-          type: "text",
+          type: "email",
         },
         password: {
           label: "Password",
