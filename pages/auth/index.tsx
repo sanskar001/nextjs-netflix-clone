@@ -3,6 +3,8 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -46,6 +48,14 @@ const AuthPage = () => {
       console.log("Register Error:", error);
     }
   }, [email, password, name, login]);
+
+  const goggleAuthHandler = useCallback(async () => {
+    await signIn("google", { callbackUrl: "/" });
+  }, []);
+
+  const githubAuthHandler = useCallback(async () => {
+    await signIn("github", { callbackUrl: "/" });
+  }, []);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-fixed bg-center bg-cover">
@@ -95,6 +105,20 @@ const AuthPage = () => {
             >
               {variant === "login" ? "Login" : "Sign up"}
             </button>
+            <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+              <div
+                onClick={goggleAuthHandler}
+                className="w-10 h-10 flex items-center justify-center bg-white rounded-full cursor-pointer hover:opacity-80 transition"
+              >
+                <FcGoogle size={30} />
+              </div>
+              <div
+                onClick={githubAuthHandler}
+                className="w-10 h-10 flex items-center justify-center bg-white rounded-full cursor-pointer hover:opacity-80 transition"
+              >
+                <FaGithub size={30} />
+              </div>
+            </div>
             <p className="text-neutral-500 mt-12">
               {variant === "login"
                 ? "First time using Netflix?"
