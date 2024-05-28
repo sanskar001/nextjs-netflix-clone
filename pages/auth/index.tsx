@@ -1,13 +1,11 @@
 import Input from "@/components/Input";
 import axios from "axios";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
 const AuthPage = () => {
-  const router = useRouter();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,11 +23,8 @@ const AuthPage = () => {
       await signIn("credentials", {
         email,
         password,
-        redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/profiles",
       });
-
-      router.push("/");
     } catch (error) {
       console.log("Login", error);
     }
@@ -50,11 +45,11 @@ const AuthPage = () => {
   }, [email, password, name, login]);
 
   const goggleAuthHandler = useCallback(async () => {
-    await signIn("google", { callbackUrl: "/" });
+    await signIn("google", { callbackUrl: "/profiles" });
   }, []);
 
   const githubAuthHandler = useCallback(async () => {
-    await signIn("github", { callbackUrl: "/" });
+    await signIn("github", { callbackUrl: "/profiles" });
   }, []);
 
   return (
