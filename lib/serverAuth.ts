@@ -5,6 +5,8 @@ import prismadb from "@/lib/prismadb";
 const serverAuth = async (req: NextApiRequest) => {
   const session = await getSession({ req });
 
+  console.log("GETSESSION", { session });
+
   if (!session?.user?.email) {
     throw new Error("Not signed in");
   }
